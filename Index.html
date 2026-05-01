@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+  <title>KiwiSaver Calculator</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body style="font-family:Arial; padding:20px;">
+
+<h1>KiwiSaver Growth Calculator</h1>
+
+<label>Age:</label><br> <input id="age" type="number" value="30"><br><br>
+
+<label>Current Balance ($):</label><br> <input id="balance" type="number" value="10000"><br><br>
+
+<label>Salary Income ($):</label><br> <input id="salary" type="number"><br><br>
+
+<label>Business Income ($):</label><br> <input id="business" type="number"><br><br>
+
+<label>Strategy:</label><br> <select id="strategy">
+
+  <option value="0.99">High Growth (99/1)</option>
+  <option value="0.80">Growth (80/20)</option>
+  <option value="0.60">Balanced (60/40)</option>
+  <option value="0.25">Conservative (25/75)</option>
+</select><br><br>
+
+<button onclick="runSim()">Run Calculator</button>
+
+<h2 id="result"></h2>
+
+<canvas id="chart" height="100"></canvas>
+
+<p>
+<b>Disclaimer:</b> This tool is for estimation purposes only and not financial advice. 
+Assumes 3.5% employee + 3.5% employer contributions and 3.5% for self-employed income. 
+Returns assumed at 7% for growth assets and 3.5% for income assets. Results are estimates based on historical assumptions.
+</p>
+
+<script>
+let chart;
+
+function runSim() {
+
+  const age = Number(document.getElementById("age").value);
+  const balance = Number(document.getElementById("balance").value);
+  const salary = Number(document.getElementById("salary").value) || 0;
+  const business = Number(document.getElementById("business").value) || 0;
+  const strategy = Number(document.getElementById("strategy").value);
+
+  const incomeRatio = 1 - strategy;
+
+  const growthReturn = 0.07;
+  const incomeReturn = 0.035;
+
+  const contribution = (salary * 0.07) + (business * 0.035);
+
+  let value = balance;
+
+  const labels = [];
+  const data = [];
+
+  for (let i = age; i <= 90; i++) {
+
+    const r = (strategy * growthReturn) + (incomeRatio * incomeReturn);
+
+    value = value * (1 + r) + contribution;
+
+    labels.push(i);
+    data.push(Math.round(value));
+  }
+
+  document.getElementById("result").innerText =
+    "Projected Value at Age 90: $" + Math.round(value);
+
+  if (chart) chart.destroy();
+
+  chart = new Chart(document.getElementById("chart"), {
+    type: "line",
+    data: {
+      labels: labels,
+      datasets: [{
+        label: "Portfolio Growth",
+        data: data
+      }]
+    }
+  });
+}
+</script>
+
+</body>
+</html>
