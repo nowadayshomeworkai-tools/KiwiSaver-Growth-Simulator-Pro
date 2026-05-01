@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+  <title>KiwiSaver Growth Simulator (Pro)</title>
+
+  <!-- Chart.js -->
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  <!-- jsPDF -->
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+</head>
+
+<body style="font-family: Arial; padding:20px;">
+
+<h1>KiwiSaver Growth Simulator (Pro)</h1>
+
+<label>Current Age:</label><br> <input id="age" type="number" value="30"><br><br>
+
+<label>Current Balance ($):</label><br> <input id="balance" type="number" value="10000"><br><br>
+
+<h3>Income Inputs</h3>
+
+<label>Salary Income ($):</label><br> <input id="salary"><br><br>
+
+<label>Business Income ($):</label><br> <input id="business"><br><br>
+
+<label>Strategy:</label><br> <select id="strategy">
+
+  <option value="0.99">High Growth</option>
+  <option value="0.80">Growth</option>
+  <option value="0.60">Balanced</option>
+  <option value="0.25">Conservative</option>
+</select><br><br>
+
+<button onclick="runSim()">Run Simulation</button> <button onclick="downloadReport()">Download Report</button>
+
+<h2 id="result"></h2>
+
+<h3>Growth Chart</h3>
+<canvas id="growthChart"></canvas>
+
+<h3>Asset Allocation</h3>
+<canvas id="pieChart"></canvas>
+
+<p>
+<b>Disclaimer:</b> This is a modelling tool only. Contributions assumed at 3.5% employee + 3.5% employer (7%). 
+Returns assumed: 7% growth, 3.5% income. Results are estimates only.
+</p>
+
+<script src="script.js"></script>
+
+</body>
+</html>
